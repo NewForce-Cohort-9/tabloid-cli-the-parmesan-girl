@@ -12,12 +12,12 @@ namespace TabloidCLI
 
         public List<Author> GetAll()
         {
-            using (SqlConnection conn = Connection)
+             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT id,
+                    cmd.CommandText = @"SELECT Id,
                                                FirstName,
                                                LastName,
                                                Bio
