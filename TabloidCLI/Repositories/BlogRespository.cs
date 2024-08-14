@@ -26,7 +26,7 @@ namespace TabloidCLI
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Blog blog = new Blog();
+                        Blog blog = new Blog()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
@@ -34,9 +34,10 @@ namespace TabloidCLI
                         };
                         blogs.Add(blog);
 
-                        return blogs;
                     }
+                    return blogs;
                 }
+            }
             }
 
             public Blog Get(int id)
@@ -51,10 +52,10 @@ namespace TabloidCLI
                     conn.Open();
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO Blog (Id, Title, URL)
-                                        VALUES (@id, @title, @URL)";
+                        cmd.CommandText = @"INSERT INTO Blog (Title, URL)
+                                        VALUES (@title, @URL)";
 
-                        cmd.Parameters.AddWithValue("@id", blog.Id);
+                        //cmd.Parameters.AddWithValue("@id", blog.Id); (Leaving id here and adding it to the CommnadText will throw an error)
                         cmd.Parameters.AddWithValue("@title", blog.Title);
                         cmd.Parameters.AddWithValue("@url", blog.Url);
 
@@ -100,5 +101,4 @@ namespace TabloidCLI
 
             }
         }
-    }
     }
