@@ -134,7 +134,7 @@ namespace TabloidCLI
                     cmd.Parameters.AddWithValue("@bio", author.Bio);
                     cmd.Parameters.AddWithValue("@id", author.Id);
 
-                    cmd.ExecuteNonQuery();
+                    
                 }
             }
         }
