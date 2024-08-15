@@ -72,10 +72,7 @@ namespace TabloidCLI.Repositories
                         }
                         if (!reader.IsDBNull(reader.GetOrdinal("TagId")))
                         {
-                            post.Tags.Add(new Tag())
-                            {
-
-                            });
+                            
 
                         }
 
