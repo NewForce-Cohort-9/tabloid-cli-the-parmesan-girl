@@ -27,9 +27,9 @@ namespace TabloidCLI.UserInterfaceManagers
             Blog blog = _blogRepository.Get(_blogId);
             Console.WriteLine($"{blog.Title} Details");
             Console.WriteLine(" 1) View");
-            Console.WriteLine(" 3) Add Tag");
-            Console.WriteLine(" 4) Remove Tag");
-            Console.WriteLine(" 5) View Posts");
+            Console.WriteLine(" 2) Add Tag");
+            Console.WriteLine(" 3) Remove Tag");
+            Console.WriteLine(" 4) View Posts");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -71,7 +71,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void ViewPosts()
         {
-            List<Post> posts = _postRepository.GetByBlog(_blogId);
+            List<Post> posts = _postRepository.GetByAuthor(_blogId);
             foreach (Post post in posts)
             {
                 Console.WriteLine(post);
@@ -98,7 +98,7 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 int choice = int.Parse(input);
                 Tag tag = tags[choice - 1];
-                _blogRepository.Insert(blog, tag);
+                _blogRepository.InsertTag(blog, tag);
             }
             catch (Exception ex)
             {
