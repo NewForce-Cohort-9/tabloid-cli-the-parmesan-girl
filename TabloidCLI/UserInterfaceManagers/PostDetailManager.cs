@@ -50,7 +50,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     RemoveTag();
                     return this;
                 case "4":
-                    //NOTE MANAGEMENT Method
+                    //add NOTE MANAGEMENT Method
                     return this;
                 case "0":
                     return _parentUI;
@@ -127,4 +127,5 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine("Invalid Selection. Won't remove any tags.");
             }
         }
+    }
 }

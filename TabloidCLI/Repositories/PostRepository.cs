@@ -40,7 +40,48 @@ namespace TabloidCLI.Repositories
 
         public Post Get(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = Connection) 
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.Is AS PostId,
+                                               p.Title,
+                                               p.Url,
+                                               p.PublishDateTime,
+                                               t.Id AS TagId
+                                        FROM Post p
+                                        LEFT JOIN PostTag pt ON p.Id = pt.PostId
+                                        LEFT JOIN Tag t on t.Id = pt.TagId
+                                        WHERE p.id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    Post post = null;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read()) 
+                    {
+                        if (post ==null)
+                        {
+                            post = new Post()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("title")),
+                                Url = reader.GetString(reader.GetOrdinal("url")),
+
+                            };
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("TagId")))
+                        {
+                            post.Tags.Add(new Tag())
+                            {
+
+                            });
+
+                        }
+
+                    }
+                }
+            }
         }
 
         public List<Post> GetByAuthor(int authorId)
