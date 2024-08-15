@@ -13,7 +13,7 @@ namespace TabloidCLI.UserInterfaceManagers
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _postRepository;
         private AuthorRepository _authorRepository;
-        //private BlogRepostory _blogRepository;
+        private BlogRepository _blogRepository;
         private string _connectionString;
 
         public PostManager(IUserInterfaceManager parentUI, string connectionString)
@@ -21,6 +21,7 @@ namespace TabloidCLI.UserInterfaceManagers
             _parentUI = parentUI;
             _postRepository = new PostRepository(connectionString);
             _authorRepository = new AuthorRepository(connectionString); 
+            _blogRepository = new BlogRepository(connectionString);
             _connectionString = connectionString;
         }
 
@@ -51,7 +52,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     {
                         return new PostDetailManager(this, _connectionString, post.Id);
                     }
-                    return this;
+                    
                 case "3":
                     Add();
                     return this;
@@ -131,6 +132,21 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 int choice = int.Parse(input);
                 post.AuthorId = choice - 1;
+            }
+            catch (Exception ex)
+            {
+            }
+            Console.Write("Select Blog by number: ");
+            List<Blog> blogs = _blogRepository.GetAll();
+            foreach (Blog blog in blogs)
+            {
+                Console.WriteLine($"{blog.Id}. {blog.Title} {blog.Url}");
+            }
+                        
+            try
+            {
+                int choice = int.Parse(input);
+                post.BlogId = choice - 1;
             }
             catch (Exception ex)
             {
