@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TabloidCLI.Repositories
 {
-    internal class NoteRepository : DatabaseConnector, IRepository<Note>
+    internal class NoteRepository : DatabaseConnector
     {
         public NoteRepository(string connectionString) : base(connectionString) { }
 

@@ -108,73 +108,76 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Add()
         {
-            Console.WriteLine("New Post");
+            Console.WriteLine("-*-New Post-*-");
             Post post = new Post();
 
-            Console.Write("Title: ");
+            Console.Write("*Title: ");
             post.Title = Console.ReadLine();
 
-            Console.Write("Url: ");
+            Console.Write("*Url: ");
             post.Url = Console.ReadLine();
 
-            Console.Write("Publish Date and Time: ");
+            Console.Write("*Publish Date & Time: ");
             post.PublishDateTime = Convert.ToDateTime(Console.ReadLine());
 
-            Console.Write("Select Author by number: ");
+            Console.WriteLine("-*-Select Author by number: ");
             List<Author> authors = _authorRepository.GetAll();
             foreach (Author author in authors)
             {
                 Console.WriteLine($"{author.Id}. {author.FirstName} {author.LastName}");
             }
 
-            string input = Console.ReadLine();
+            string authorInput = Console.ReadLine();
             try
             {
-                int choice = int.Parse(input);
-                post.AuthorId = choice - 1;
+                int choice = int.Parse(authorInput);
+                post.AuthorId = choice;
             }
             catch (Exception ex)
             {
             }
-            Console.Write("Select Blog by number: ");
+            Console.WriteLine("-*-Select Blog by number: ");
             List<Blog> blogs = _blogRepository.GetAll();
             foreach (Blog blog in blogs)
             {
                 Console.WriteLine($"{blog.Id}. {blog.Title} {blog.Url}");
             }
-                        
+
+            string blogInput = Console.ReadLine();
             try
             {
-                int choice = int.Parse(input);
-                post.BlogId = choice - 1;
+                int choice = int.Parse(blogInput);
+                post.BlogId = choice;
             }
             catch (Exception ex)
             {
             }
+            _postRepository.Insert(post);
 
         }
 
         private void Edit()
         {
             Post postToEdit = Choose("Which post would you like to edit?");
-            if (postToEdit != null) 
+            if (postToEdit == null) 
             {
                 return;
             }
             Console.WriteLine();
-            Console.Write("New Title: ");
+            Console.Write("*New Title: ");
             string title = Console.ReadLine();
             if(!string.IsNullOrWhiteSpace(title))
             {
                 postToEdit.Title = title;
             }
             Console.WriteLine();
-            Console.Write("New Url: ");
+            Console.Write("*New Url: ");
             string url = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(url))
             {
                 postToEdit.Url = url;
             }
+            _postRepository.Update(postToEdit);
 
         }
         private void Remove()

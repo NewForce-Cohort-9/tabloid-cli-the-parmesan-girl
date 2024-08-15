@@ -45,28 +45,31 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.Is AS PostId,
+                    cmd.CommandText = @"SELECT p.Id AS PostId,
                                                p.Title,
                                                p.Url,
                                                p.PublishDateTime,
-                                               t.Id AS TagId
+                                               t.Id AS TagId,
+                                               t.Name
                                         FROM Post p
                                         LEFT JOIN PostTag pt ON p.Id = pt.PostId
                                         LEFT JOIN Tag t on t.Id = pt.TagId
-                                        WHERE p.id = @id";
+                                        WHERE p.Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     Post post = null;
+
                     SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read()) 
+                     while (reader.Read()) 
                     {
-                        if (post ==null)
+                        if (post == null)
                         {
                             post = new Post()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Title = reader.GetString(reader.GetOrdinal("title")),
-                                Url = reader.GetString(reader.GetOrdinal("url")),
+                                Id = reader.GetInt32(reader.GetOrdinal("PostId")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                Url = reader.GetString(reader.GetOrdinal("Url")),
+                                PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"))
 
                             };
                         }
@@ -208,7 +211,7 @@ namespace TabloidCLI.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO Post (Title, Url, PublishDateTime, AuthorId, BlogId)
-                                                    VALUE (@title, @url, @publishDateTime, @authorId, @blogId)";
+                                                    VALUES (@title, @url, @publishDateTime, @authorId, @blogId)";
                     cmd.Parameters.AddWithValue("@title", post.Title);
                     cmd.Parameters.AddWithValue("@url", post.Url);
                     cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
@@ -229,17 +232,19 @@ namespace TabloidCLI.Repositories
                 {
                     cmd.CommandText = @"UPDATE Post 
                                            SET Title = @title, 
-                                               Url = @url, 
-                                               PublishDateTime = @publishDateTime, 
-                                               AuthorId = @authorId, 
-                                               BlogId = @blogId
+                                               Url = @url 
+                                               
+                                               
                                          WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("@title", post.Title);
                     cmd.Parameters.AddWithValue("@url", post.Url);
-                    cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
-                    cmd.Parameters.AddWithValue("@authorId", post.AuthorId);
-                    cmd.Parameters.AddWithValue("@blogId", post.BlogId);
+                    //cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
+                    //cmd.Parameters.AddWithValue("@authorId", post.AuthorId);
+                    //cmd.Parameters.AddWithValue("@blogId", post.BlogId);
+                    cmd.Parameters.AddWithValue("@id", post.Id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

@@ -66,11 +66,14 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Post post = _postRepository.Get(_postId);
             Console.Write($"Title: {post.Title}");
-            Console.Write($"Url: {post.Url}");
-            Console.Write($"PublishedDateTime: {post.PublishDateTime}");
+            Console.WriteLine("");
+            Console.Write($" Url: {post.Url}");
+            Console.WriteLine("");
+            Console.Write($" PublishedDateTime: {post.PublishDateTime}");
             foreach (Tag tag in post.Tags)
             {
-                Console.WriteLine(" " + tag);
+                Console.WriteLine("");
+                Console.WriteLine("Tags:" + tag);
             }
             Console.WriteLine();
 
