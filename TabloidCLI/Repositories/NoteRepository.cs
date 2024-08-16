@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Reflection.Metadata;
 using TabloidCLI.Models;
 using TabloidCLI.Repositories;
 
@@ -56,7 +57,38 @@ namespace TabloidCLI.Repositories
                                                n.CreateDateTime
                                                p.Title
                                         FROM Note n
-                                        LEFT JOIN ";
+                                        LEFT JOIN Post p on p.Id = n.TagId
+                                        WHERE n.Id = @id";
+                    cmd.Parameters.AddWithValue ("id", id);
+
+                    Note note = null;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read()) 
+                    {
+                        if (note == null) 
+                        {
+                            note = new Note()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            };
+                        }
+
+                        if (!reader.IsDBNull(reader.GetOrdinal("PostId")))
+                        {
+                            note.Posts.Add(new Post()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                            });
+                        }
+                    }
+                    reader.Close ();
+                    return note;
+
                 }
             }
         }
