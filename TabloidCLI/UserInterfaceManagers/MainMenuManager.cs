@@ -18,7 +18,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 3) Author Management");
             Console.WriteLine(" 4) Post Management");
             Console.WriteLine(" 5) Tag Management");
-            Console.WriteLine(" 6) Search by Tag");
+            Console.WriteLine(" 6) Search Management");
             Console.WriteLine(" 0) Exit");
 
             Console.Write("> ");

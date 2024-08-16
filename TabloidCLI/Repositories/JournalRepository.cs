@@ -127,5 +127,6 @@ namespace TabloidCLI.Repositories
 
             }
         }
+
     }
 }
