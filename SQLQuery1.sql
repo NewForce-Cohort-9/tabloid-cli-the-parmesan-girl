@@ -1,1 +1,6 @@
-﻿SELECT Id, Title, Content, CreateDateTime FROM Journal
+﻿SELECT * FROM BlogTag
+
+
+SELECT * FROM Blog
+
+SELECT * FROM Tag
