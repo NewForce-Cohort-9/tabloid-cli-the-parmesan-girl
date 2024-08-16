@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using TabloidCLI.Models;
 using TabloidCLI.Repositories;
 
@@ -74,7 +75,9 @@ namespace TabloidCLI.UserInterfaceManagers
             List<Post> posts = _postRepository.GetByBlog(_blogId);
             foreach (Post post in posts)
             {
-                Console.WriteLine(post);
+                Console.WriteLine($"Title: {post.Title}");
+                Console.WriteLine($"Url: {post.Url}");
+                Console.WriteLine($"Published on: {post.PublishDateTime}");
             }
             Console.WriteLine();
         }
