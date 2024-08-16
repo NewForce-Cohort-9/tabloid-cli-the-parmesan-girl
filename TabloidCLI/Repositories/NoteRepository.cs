@@ -39,6 +39,7 @@ namespace TabloidCLI.Repositories
                         notes.Add(note);
                     }
                     reader.Close();
+
                     return notes;
                 }
             }
@@ -89,6 +90,18 @@ namespace TabloidCLI.Repositories
                     reader.Close ();
                     return note;
 
+                }
+            }
+        }
+
+        public void InsertNote(Post post, Note note)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand()) 
+                {
+                    cmd.CommandText = @"InsertNote INTO ";
                 }
             }
         }
