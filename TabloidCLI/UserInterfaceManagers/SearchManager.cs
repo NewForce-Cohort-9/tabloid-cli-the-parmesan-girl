@@ -108,6 +108,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             SearchResults<Blog> blogResults = _tagRepository.SearchBlogs(tagName);
             SearchResults<Author> authorResults = _tagRepository.SearchAuthors(tagName);
+            SearchResults<Post> postResults = _tagRepository.SearchPosts(tagName);
 
             Console.WriteLine("Blogs: ");
             if (blogResults.NoResultsFound)
@@ -127,6 +128,17 @@ namespace TabloidCLI.UserInterfaceManagers
             else
             {
                 authorResults.Display();
+            }
+
+            Console.WriteLine("Posts: ");
+            if(postResults.NoResultsFound)
+            {
+                Console.WriteLine($"No post results for {tagName}");
+            }
+            else
+            {
+                postResults.Display();
+
             }
         }
     }
