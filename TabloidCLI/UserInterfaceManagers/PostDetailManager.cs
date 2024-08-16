@@ -15,7 +15,6 @@ namespace TabloidCLI.UserInterfaceManagers
         private AuthorRepository _authorRepository;
         private PostRepository _postRepository;
         private TagRepository _tagRepository;
-        private NoteRepository _noteRepository;
         private string _connectionString;
         private int _postId;
 
@@ -25,8 +24,10 @@ namespace TabloidCLI.UserInterfaceManagers
             _authorRepository = new AuthorRepository(connectionString);
             _postRepository = new PostRepository(connectionString);
             _tagRepository = new TagRepository(connectionString);
-            _noteRepository = new NoteRepository(connectionString);
-            _postId = postId;
+            _connectionString = connectionString;   
+            _postId = postId;   
+    
+           
 
         }
 

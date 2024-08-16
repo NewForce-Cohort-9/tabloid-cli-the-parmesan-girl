@@ -78,14 +78,6 @@ namespace TabloidCLI.Repositories
                             };
                         }
 
-                        if (!reader.IsDBNull(reader.GetOrdinal("PostId")))
-                        {
-                            note.Posts.Add(new Post()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                            });
-                        }
                     }
                     reader.Close ();
                     return note;
@@ -94,25 +86,28 @@ namespace TabloidCLI.Repositories
             }
         }
 
-        public void InsertNote(Post post, Note note)
+        public void Update(Note note)
+        {
+
+        }
+        public void Insert(Note note)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand()) 
                 {
-                    cmd.CommandText = @"InsertNote INTO Note (Title, Content, CreateDateTime, PostId)
-                                                        VALUES (@title, @content, @createDateTime, @postId)";
+                    cmd.CommandText = @"INSERT INTO Note (Title, Content, CreateDateTime)
+                                                        VALUES (@Title, @Content, @CreateDateTime)";
                     cmd.Parameters.AddWithValue ("@title", note.Title);
                     cmd.Parameters.AddWithValue("@content", note.Content);
                     cmd.Parameters.AddWithValue("@createDateTime", note.CreateDateTime);
-                    cmd.Parameters.AddWithValue("@id", post.Id);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public void DeleteNote(Post post, Note note)
+        public void Delete(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -120,11 +115,9 @@ namespace TabloidCLI.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"DELTE FROM Note
-                                        WHERE Id =@id AND
-                                              postId = @postId";
-                    cmd.Parameters.AddWithValue("@id", note.Id);
-                    cmd.Parameters.AddWithValue("@postId", note.PostId);
-
+                                        WHERE Id =@id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    
                     cmd.ExecuteNonQuery();
                 }
 

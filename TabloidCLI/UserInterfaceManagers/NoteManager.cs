@@ -12,18 +12,16 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private NoteRepository _noteRepository;
-        private PostDetailManager _postDetailManager;
-        private NoteManager _noteManager;
         private string _connectionString;
         private int _postId;
+
         public NoteManager(IUserInterfaceManager parentUI, string connectionString, int postId)
         {
             _parentUI = parentUI;
             _noteRepository = new NoteRepository(connectionString);
-            _postDetailManager = new PostDetailManager(connectionString);
-            _noteManager =  new NoteManager(connectionString);
-            _connectionString = connectionString;
+             _connectionString = connectionString;
             _postId = postId;
+          
         }
         public IUserInterfaceManager Execute()
         {
@@ -103,16 +101,16 @@ namespace TabloidCLI.UserInterfaceManagers
             note.Content = Console.ReadLine();  
 
             Console.Write("Create Date & Time: ");
-            note.CreateDateTime = Console.ReadLine();
+            note.CreateDateTime = Convert.ToDateTime(Console.ReadLine());
 
-            _noteRepository.InsertNote(note);
+            _noteRepository.Insert(note);
         }
         private void Remove()
         {
             Note notetoDelete = Choose("Which author would you like to remove?");
             if(notetoDelete != null)
             {
-                _noteRepository.DeleteNote(notetoDelete.Id);
+                _noteRepository.Delete(notetoDelete.Id);
             }
         }
     }
