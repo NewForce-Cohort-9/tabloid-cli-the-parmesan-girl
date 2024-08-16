@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TabloidCLI.Repositories;
+using TabloidCLI.Models;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -11,13 +12,18 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private NoteRepository _noteRepository;
+        private PostDetailManager _postDetailManager;
+        private NoteManager _noteManager;
         private string _connectionString;
-
-        public NoteManager(IUserInterfaceManager parentUI, string connectionString)
+        private int _postId;
+        public NoteManager(IUserInterfaceManager parentUI, string connectionString, int postId)
         {
             _parentUI = parentUI;
             _noteRepository = new NoteRepository(connectionString);
+            _postDetailManager = new PostDetailManager(connectionString);
+            _noteManager =  new NoteManager(connectionString);
             _connectionString = connectionString;
+            _postId = postId;
         }
         public IUserInterfaceManager Execute()
         {
@@ -44,5 +50,6 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
             }
         }
+
     }
 }
