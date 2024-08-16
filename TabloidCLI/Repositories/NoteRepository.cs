@@ -97,11 +97,12 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand()) 
                 {
-                    cmd.CommandText = @"INSERT INTO Note (Title, Content, CreateDateTime)
-                                                        VALUES (@Title, @Content, @CreateDateTime)";
+                    cmd.CommandText = @"INSERT INTO Note (Title, Content, CreateDateTime, PostId)
+                                                        VALUES (@Title, @Content, @CreateDateTime, @PostId)";
                     cmd.Parameters.AddWithValue ("@title", note.Title);
                     cmd.Parameters.AddWithValue("@content", note.Content);
                     cmd.Parameters.AddWithValue("@createDateTime", note.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@postId", note.PostId);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -114,7 +115,7 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELTE FROM Note
+                    cmd.CommandText = @"DELETE FROM Note
                                         WHERE Id =@id";
                     cmd.Parameters.AddWithValue("@id", id);
                     

@@ -56,7 +56,7 @@ namespace TabloidCLI.UserInterfaceManagers
             List<Note> notes = _noteRepository.GetAll();
             foreach (Note note in notes)
             {
-                Console.WriteLine(note);
+                Console.WriteLine(note.Title);
             }
         }
         private Note Choose(string prompt = null)
@@ -94,7 +94,9 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("New Note");
             Note note = new Note();
 
-            Console.Write("Tile: ");
+            note.PostId = _postId;
+
+            Console.Write("Title: ");
             note.Title = Console.ReadLine();
 
             Console.Write("Content: ");
@@ -107,7 +109,7 @@ namespace TabloidCLI.UserInterfaceManagers
         }
         private void Remove()
         {
-            Note notetoDelete = Choose("Which author would you like to remove?");
+            Note notetoDelete = Choose("Which note would you like to remove?");
             if(notetoDelete != null)
             {
                 _noteRepository.Delete(notetoDelete.Id);
