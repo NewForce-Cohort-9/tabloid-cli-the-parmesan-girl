@@ -28,7 +28,7 @@ namespace TabloidCLI.Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read()) 
                     {
-                        Note note = new Note();
+                        Note note = new Note()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
@@ -101,8 +101,33 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand()) 
                 {
-                    cmd.CommandText = @"InsertNote INTO ";
+                    cmd.CommandText = @"InsertNote INTO Note (Title, Content, CreateDateTime, PostId)
+                                                        VALUES (@title, @content, @createDateTime, @postId)";
+                    cmd.Parameters.AddWithValue ("@title", note.Title);
+                    cmd.Parameters.AddWithValue("@content", note.Content);
+                    cmd.Parameters.AddWithValue("@createDateTime", note.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@id", post.Id);
+
+                    cmd.ExecuteNonQuery();
                 }
+            }
+        }
+        public void DeleteNote(Post post, Note note)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELTE FROM Note
+                                        WHERE Id =@id AND
+                                              postId = @postId";
+                    cmd.Parameters.AddWithValue("@id", note.Id);
+                    cmd.Parameters.AddWithValue("@postId", note.PostId);
+
+                    cmd.ExecuteNonQuery();
+                }
+
             }
         }
     }
